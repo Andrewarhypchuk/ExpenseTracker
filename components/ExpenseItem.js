@@ -5,7 +5,7 @@ import { getFormatedDate } from './../util/date';
 import {useNavigation} from '@react-navigation/native'
 
 
-function ExpenseItem({id,title,amount,date}){
+function ExpenseItem({id,title,amount,date,category}){
    const navigation =  useNavigation();
   
 function expensePressHandler(){
@@ -28,6 +28,11 @@ function expensePressHandler(){
                   {getFormatedDate(date)}
                 </Text>
            </View>
+           <View style={styles.amountContainer}>
+              <Text style={styles.amount}>
+                   {category}
+              </Text>
+          </View>
 
            <View style={styles.amountContainer}>
               <Text style={styles.amount}>
@@ -66,7 +71,8 @@ const styles = StyleSheet.create({
    description:{
     fontSize:16,
     marginBottom:4,
-    fontWeight:'bold'
+    fontWeight:'bold',
+    minWidth:150
    },
    amountContainer:{
        paddingHorizontal:12,
@@ -80,5 +86,11 @@ const styles = StyleSheet.create({
    amount:{
     color:GlobalColors.colors.primary500,
     fontWeight:'bold'
+   }
+   ,
+   category:{
+     width:20,
+     height:20,
+     borderRadius:'50%'
    }
 })

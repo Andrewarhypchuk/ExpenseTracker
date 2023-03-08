@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, Text } from "react-native";
 import { View } from "react-native";
 import { GlobalColors } from './../constants/colors';
 
-function Button({children,onPress,mode,style}){
+function Button({children,onPress,mode,style,}){
   return <View style={style}>
       <Pressable onPress={onPress} style={({pressed})=> pressed && styles.pressed} >
         <View style={[styles.button,mode === 'flat' && styles.flat]}>

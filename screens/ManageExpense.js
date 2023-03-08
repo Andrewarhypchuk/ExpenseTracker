@@ -4,18 +4,20 @@ import {Text} from 'react-native';
 import IconButton from './../UI/IconButton';
 import { GlobalColors } from './../constants/colors';
 import Button from '../UI/Button';
+import { useState } from 'react';
+import { getFormatedDate } from './../util/date';
 import { useDispatch } from 'react-redux';
+import { expencesActions } from './../store/expenses';
 
 function ManageExpense({ route, navigation }){
- 
+   const dispatch = useDispatch()
    const editedExpenseId = route.params?.expenseId;
 
-
    const isEditing = !!editedExpenseId;
+   
 
-
-   const titleInput = useRef();
-   const priceInput = useRef();
+   const [ titleInput,setTitleInput] = useState('');
+   const [ priceInput,setPriceInput] = useState('');
 
 
    useLayoutEffect(()=>{
@@ -37,7 +39,21 @@ function ManageExpense({ route, navigation }){
    function confirmHandler(){
       navigation.goBack()
    }
+    function updateItemHandler(){
+
+   }
+   function addItemHandler(){
     
+      
+       dispatch(expencesActions.addExpenseItem({
+         id: 'e1',
+         title: 'test expense',
+         amount: 45,
+         category:'medium',
+         date: new Date('2021-12-19')
+       }))
+       navigation.goBack()
+   }
 
    return <View style={styles.container}>
           
@@ -45,7 +61,8 @@ function ManageExpense({ route, navigation }){
                       cursorColor='white' 
                       autoFocus={true} 
                       style={styles.input} 
-                      ref={titleInput}
+                      onChangeText={newText => setTitleInput(newText)}
+                      defaultValue={titleInput}
                       type='text' 
                       inputMode='text'
                       keyboardAppearance='dark'
@@ -56,7 +73,9 @@ function ManageExpense({ route, navigation }){
                   <TextInput 
                       style={styles.input} 
                       type='number' 
-                      inputMode='numeric' 
+                      inputMode='numeric'
+                      onChangeText={newText => setPriceInput(newText)}
+                      defaultValue={priceInput}
                       keyboardAppearance='dark'
                       placeholder='  Price..'
                       placeholderTextColor='lightgrey'
@@ -66,7 +85,7 @@ function ManageExpense({ route, navigation }){
           
       <View style={styles.buttons}>
          <Button style={styles.button} mode='flat' onPress={cancelHandler}>Cancel</Button>
-         <Button style={styles.button}  onPress={confirmHandler}>
+         <Button style={styles.button}  onPress={isEditing ? updateItemHandler : addItemHandler }>
            {isEditing ? 'Update' : 'Add'}
             </Button>
       </View>
